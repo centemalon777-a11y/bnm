@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenova — Code Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0a1f5c;--navy-deep:#060f36;--navy-mid:#1a3278;
+  --teal:#0ea5e9;--gold:#f59e0b;--success:#10b981;--error:#ef4444;
+  --white:#fff;--off-white:#f8faff;--border:#e2e8f0;--muted:#64748b;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Sora',sans-serif;background:var(--off-white);min-height:100vh;
+  display:flex;align-items:center;justify-content:center;padding:40px 24px;
+  -webkit-font-smoothing:antialiased;}
+h1,h2,h3{font-family:'Clash Display',sans-serif;}
+
+.card{width:100%;max-width:560px;background:#fff;border-radius:24px;
+  border:1px solid var(--border);box-shadow:0 8px 48px rgba(10,31,92,.09);
+  padding:48px 44px;animation:cardIn .5s ease both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+.card-logo{display:flex;align-items:center;gap:9px;justify-content:center;margin-bottom:28px;}
+.card-logo img{height:30px;}
+.card-logo span{font-family:'Clash Display',sans-serif;font-size:18px;font-weight:700;color:var(--navy-deep);}
+
+.warning-box{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.25);
+  border-radius:12px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin-bottom:24px;}
+.warning-box svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px;}
+.warning-box p{font-size:13px;color:#92400e;line-height:1.6;}
+
+.card-header{margin-bottom:24px;}
+.card-header h1{font-size:22px;font-weight:700;color:var(--navy-deep);margin-bottom:6px;}
+.card-header p{font-size:13px;color:var(--muted);line-height:1.65;}
+
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--navy-deep);margin-bottom:6px;}
+.field input,.field select{width:100%;height:44px;padding:0 14px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-family:'Sora',sans-serif;font-size:14px;color:var(--navy-deep);
+  background:#fff;outline:none;transition:border-color .25s,box-shadow .25s;}
+.field input:focus,.field select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,31,92,.07);}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+.stat-box{background:var(--off-white);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.stat-box .s-num{font-family:'Clash Display',sans-serif;font-size:26px;font-weight:700;color:var(--navy-deep);line-height:1;margin-bottom:3px;}
+.stat-box .s-label{font-size:11px;color:var(--muted);font-weight:500;}
+
+.progress-wrap{margin-bottom:12px;}
+.progress-label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px;}
+.progress-label span:last-child{font-weight:600;color:var(--navy);}
+.progress-track{width:100%;height:8px;background:var(--border);border-radius:100px;overflow:hidden;}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--navy),var(--teal));
+  border-radius:100px;transition:width .3s ease;}
+
+.log-wrap{background:var(--navy-deep);border-radius:12px;padding:14px 16px;
+  height:150px;overflow-y:auto;margin-bottom:20px;
+  font-size:12px;scroll-behavior:smooth;}
+.log-wrap::-webkit-scrollbar{width:4px;}
+.log-wrap::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:10px;}
+.log-line{color:rgba(255,255,255,.5);margin-bottom:2px;line-height:1.5;}
+.log-line.ok{color:#4ade80;}.log-line.err{color:#f87171;}
+.log-line.info{color:#38bdf8;}.log-line.done{color:var(--gold);font-weight:600;}
+
+.btn-generate{width:100%;height:52px;background:var(--navy);color:#fff;
+  font-family:'Sora',sans-serif;font-size:15px;font-weight:700;
+  border:none;border-radius:12px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  transition:all .25s;margin-bottom:12px;}
+.btn-generate:hover:not(:disabled){background:var(--navy-mid);transform:translateY(-1px);box-shadow:0 6px 28px rgba(10,31,92,.28);}
+.btn-generate:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;
+  border-radius:50%;animation:spin .7s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.btn-download{width:100%;height:46px;background:transparent;color:var(--navy);
+  font-family:'Sora',sans-serif;font-size:14px;font-weight:600;
+  border:1.5px solid var(--border);border-radius:12px;cursor:pointer;
+  display:none;align-items:center;justify-content:center;gap:9px;transition:all .25s;}
+.btn-download.show{display:flex;}
+.btn-download:hover{border-color:var(--navy);background:rgba(10,31,92,.03);}
+
+.success-banner{display:none;background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.25);
+  border-radius:12px;padding:14px 18px;align-items:center;gap:12px;margin-bottom:16px;}
+.success-banner.show{display:flex;animation:fs .4s ease;}
+@keyframes fs{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.success-banner svg{width:20px;height:20px;stroke:var(--success);fill:none;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.success-banner strong{display:block;font-size:13px;font-weight:700;color:#065f46;margin-bottom:1px;}
+.success-banner span{font-size:12px;color:#047857;}
+
+@media(max-width:540px){
+  .card{padding:32px 20px;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .field-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="card-logo">
+    <img src="1.png" alt="Zenova" onerror="this.style.display='none'">
+    <span>ZENOVA</span>
+  </div>
+
+  <div class="warning-box">
+    <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <p><strong>Run this once only.</strong> After generating, delete this file or keep it private.</p>
+  </div>
+
+  <div class="card-header">
+    <h1>Exam Code Generator</h1>
+    <p>Generates unique codes and uploads them directly to your Firestore <code style="background:var(--off-white);padding:1px 6px;border-radius:4px;">examCodes</code> collection.</p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Code Prefix</label>
+      <input type="text" id="prefixInput" value="ZNV" maxlength="5" placeholder="ZNV">
+    </div>
+    <div class="field">
+      <label>Total Codes</label>
+      <select id="totalInput" onchange="document.getElementById('statTotal').textContent=parseInt(this.value).toLocaleString()">
+        <option value="100">100 codes</option>
+        <option value="500">500 codes</option>
+        <option value="1000" selected>1,000 codes</option>
+        <option value="1500">1,500 codes</option>
+        <option value="2000">2,000 codes</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="s-num" id="statTotal">1,000</div><div class="s-label">Total</div></div>
+    <div class="stat-box"><div class="s-num" id="statDone">0</div><div class="s-label">Uploaded</div></div>
+    <div class="stat-box"><div class="s-num" id="statFail">0</div><div class="s-label">Failed</div></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Progress</span><span id="progressPct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="log-wrap" id="logWrap">
+    <div class="log-line info">Ready. Press the button to start.</div>
+  </div>
+
+  <div class="success-banner" id="successBanner">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    <div>
+      <strong id="successTitle">All codes uploaded!</strong>
+      <span>Download the CSV to keep a copy of all codes.</span>
+    </div>
+  </div>
+
+  <button class="btn-generate" id="generateBtn" onclick="startGeneration()">
+    <span id="btnText">Generate &amp; Upload to Firebase</span>
+    <div class="spinner" id="btnSpinner"></div>
+  </button>
+
+  <button class="btn-download" id="downloadBtn" onclick="downloadCSV()">
+    ⬇ Download All Codes as CSV
+  </button>
+
+</div>
+
+<script>
+const PROJECT_ID = 'zenova-4342f';
+const API_KEY    = 'AIzaSyBWYdeKlijVJUHUjzcCoPgZDumsgJFMDaw';
+const BASE_URL   = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/examCodes`;
+
+let generatedCodes = [];
+let uploadedCount  = 0;
+let failedCount    = 0;
+
+// ── Generate unique codes ──
+function makeCode(prefix) {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s = '';
+  for (let i = 0; i < 6; i++) s += chars[Math.floor(Math.random() * chars.length)];
+  return `${prefix}-${s}`;
+}
+
+function generateCodes(prefix, total) {
+  const set = new Set(), codes = [];
+  while (codes.length < total) {
+    const c = makeCode(prefix);
+    if (!set.has(c)) { set.add(c); codes.push(c); }
+  }
+  return codes;
+}
+
+// ── Log ──
+function log(msg, type = '') {
+  const wrap = document.getElementById('logWrap');
+  const line = document.createElement('div');
+  line.className = 'log-line ' + type;
+  line.textContent = msg;
+  wrap.appendChild(line);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function updateStats(done, fail, total) {
+  document.getElementById('statDone').textContent = done.toLocaleString();
+  document.getElementById('statFail').textContent = fail;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent  = pct + '%';
+}
+
+// ── Upload single code via REST API ──
+async function uploadCode(code) {
+  const url  = `${BASE_URL}?key=${API_KEY}`;
+  const body = {
+    fields: {
+      code:       { stringValue: code },
+      used:       { booleanValue: false },
+      assignedTo: { stringValue: '' },
+      usedBy:     { stringValue: '' },
+      usedAt:     { nullValue: null },
+      createdAt:  { stringValue: new Date().toISOString() }
+    }
+  };
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error?.message || 'Upload failed');
+  }
+  return true;
+}
+
+// ── Main ──
+window.startGeneration = async function() {
+  const prefix = document.getElementById('prefixInput').value.trim().toUpperCase() || 'ZNV';
+  const total  = parseInt(document.getElementById('totalInput').value);
+
+  uploadedCount = 0;
+  failedCount   = 0;
+
+  document.getElementById('generateBtn').disabled     = true;
+  document.getElementById('btnText').style.display    = 'none';
+  document.getElementById('btnSpinner').style.display = 'block';
+  document.getElementById('logWrap').innerHTML        = '';
+
+  log(`Generating ${total.toLocaleString()} codes with prefix "${prefix}"…`, 'info');
+  generatedCodes = generateCodes(prefix, total);
+  log(`✓ ${total.toLocaleString()} codes generated. Uploading now…`, 'info');
+
+  // Upload in parallel chunks of 20 at a time
+  const CHUNK = 20;
+  for (let i = 0; i < generatedCodes.length; i += CHUNK) {
+    const chunk   = generatedCodes.slice(i, i + CHUNK);
+    const results = await Promise.allSettled(chunk.map(uploadCode));
+
+    results.forEach((r, idx) => {
+      if (r.status === 'fulfilled') {
+        uploadedCount++;
+      } else {
+        failedCount++;
+        log(`✗ Failed: ${chunk[idx]} — ${r.reason?.message}`, 'err');
+      }
+    });
+
+    updateStats(uploadedCount, failedCount, total);
+
+    // log every 100
+    if ((i + CHUNK) % 100 === 0 || i + CHUNK >= total) {
+      log(`↑ ${Math.min(i + CHUNK, total).toLocaleString()}/${total.toLocaleString()} processed…`, 'ok');
+    }
+
+    // small breathing room
+    await new Promise(r => setTimeout(r, 80));
+  }
+
+  // Done
+  document.getElementById('generateBtn').disabled     = false;
+  document.getElementById('btnSpinner').style.display = 'none';
+  document.getElementById('btnText').style.display    = 'inline';
+
+  if (failedCount === 0) {
+    log(`🎉 Done! All ${total.toLocaleString()} codes uploaded to Firestore.`, 'done');
+    document.getElementById('successTitle').textContent = `${total.toLocaleString()} codes uploaded successfully!`;
+    document.getElementById('successBanner').classList.add('show');
+    document.getElementById('downloadBtn').classList.add('show');
+    document.getElementById('generateBtn').disabled  = true;
+    document.getElementById('btnText').textContent   = '✓ Done — Do Not Run Again';
+  } else {
+    log(`⚠ Finished with ${failedCount} failures. Check your Firestore rules and try again.`, 'err');
+    document.getElementById('downloadBtn').classList.add('show');
+  }
+};
+
+// ── CSV Download ──
+window.downloadCSV = function() {
+  if (!generatedCodes.length) return;
+  const rows = ['Code,Used'].concat(generatedCodes.map(c => `${c},false`));
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+  const a    = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(blob),
+    download: `zenova-exam-codes-${Date.now()}.csv`
+  });
+  a.click();
+};
+</script>
+</body>
+</html>

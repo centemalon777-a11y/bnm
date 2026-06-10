@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenova CBT Competition — JAMB Science Revision</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1f5c;
+    --navy-deep: #060f36;
+    --navy-mid: #1a3278;
+    --navy-light: #2a4a9e;
+    --accent: #1e40af;
+    --accent-bright: #3b82f6;
+    --accent-glow: #60a5fa;
+    --gold: #f59e0b;
+    --gold-light: #fbbf24;
+    --white: #ffffff;
+    --off-white: #f8faff;
+    --text-muted: #64748b;
+    --text-body: #334155;
+    --border: #e2e8f0;
+    --border-blue: #bfdbfe;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--white);
+    color: var(--text-body);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Clash Display', sans-serif;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo img {
+    height: 42px;
+    object-fit: contain;
+  }
+
+  .nav-logo-text {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-body);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links a:hover { color: var(--navy); }
+
+  .nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-ghost {
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--navy);
+    background: none;
+    border: 1.5px solid var(--navy);
+    padding: 9px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-ghost:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .btn-primary {
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    background: var(--navy);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary:hover {
+    background: var(--navy-mid);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(10,31,92,0.25);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    padding-top: 72px;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero-circle-1 {
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(10,31,92,0.06) 0%, transparent 70%);
+  }
+
+  .hero-circle-2 {
+    position: absolute;
+    bottom: -200px;
+    left: -100px;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+  }
+
+  .hero-grid-line {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(10,31,92,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10,31,92,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 5% 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(10,31,92,0.06);
+    border: 1px solid rgba(10,31,92,0.12);
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero-title {
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 700;
+    color: var(--navy-deep);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.1s ease both;
+    max-width: 860px;
+  }
+
+  .hero-title .highlight {
+    color: var(--accent-bright);
+    position: relative;
+  }
+
+  .hero-title .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 2px;
+    opacity: 0.7;
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 19px);
+    color: var(--text-muted);
+    line-height: 1.65;
+    max-width: 580px;
+    margin-bottom: 44px;
+    font-weight: 400;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+    margin-bottom: 64px;
+  }
+
+  .btn-hero-primary {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    background: var(--navy);
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    letter-spacing: 0.01em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-hero-primary:hover {
+    background: var(--navy-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(10,31,92,0.3);
+  }
+
+  .btn-hero-secondary {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--navy);
+    background: none;
+    border: 1.5px solid var(--navy);
+    padding: 13px 28px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-hero-secondary:hover {
+    background: rgba(10,31,92,0.05);
+    transform: translateY(-2px);
+  }
+
+  /* ── HERO STATS ── */
+  .hero-stats {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: 0 4px 24px rgba(10,31,92,0.08);
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .stat-item {
+    padding: 24px 40px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    flex: 1;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--navy);
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SUBJECTS BAND ── */
+  .subjects-band {
+    background: var(--navy);
+    padding: 20px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .subjects-scroll {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    animation: scrollX 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .subject-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .subject-pill .dot {
+    width: 5px; height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  @keyframes scrollX {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 5%; }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: rgba(10,31,92,0.07);
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 700;
+    color: var(--navy-deep);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    max-width: 520px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-section {
+    background: var(--off-white);
+  }
+
+  .how-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .how-header .section-sub {
+    margin: 0 auto;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .step-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .step-card:hover {
+    border-color: var(--navy);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(10,31,92,0.1);
+  }
+
+  .step-number {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: rgba(10,31,92,0.07);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .step-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--navy);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .step-icon svg {
+    width: 22px; height: 22px;
+    stroke: white;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .step-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy-deep);
+    margin-bottom: 10px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── SUBJECTS SECTION ── */
+  .subjects-section {
+    background: var(--white);
+  }
+
+  .subjects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .subject-card {
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    transition: all 0.3s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .subject-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--navy);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .subject-card:hover::before { transform: scaleX(1); }
+
+  .subject-card:hover {
+    border-color: var(--navy);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(10,31,92,0.1);
+  }
+
+  .subject-card.compulsory {
+    border-color: var(--navy);
+    background: rgba(10,31,92,0.02);
+  }
+
+  .subject-card.compulsory::before {
+    transform: scaleX(1);
+    background: var(--gold);
+  }
+
+  .compulsory-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #92400e;
+    background: #fef3c7;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+  }
+
+  .subject-emoji {
+    font-size: 32px;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .subject-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy-deep);
+    margin-bottom: 6px;
+  }
+
+  .subject-qs {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* ── SESSIONS SECTION ── */
+  .sessions-section {
+    background: var(--navy-deep);
+    padding: 100px 5%;
+  }
+
+  .sessions-section .section-tag {
+    color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.1);
+  }
+
+  .sessions-section .section-title {
+    color: var(--white);
+  }
+
+  .sessions-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .sessions-header .section-sub {
+    color: rgba(255,255,255,0.55);
+    margin: 0 auto;
+  }
+
+  .sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .session-card {
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .session-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.03);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .session-card:hover::before { opacity: 1; }
+
+  .session-card:hover {
+    border-color: rgba(255,255,255,0.25);
+    transform: translateY(-4px);
+  }
+
+  .session-time-icon {
+    font-size: 44px;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .session-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .session-time {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .session-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+
+  /* ── PRIZES / LEADERBOARD ── */
+  .prizes-section {
+    background: var(--white);
+  }
+
+  .prizes-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .prizes-left .section-sub { max-width: 420px; }
+
+  .prize-list {
+    list-style: none;
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .prize-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.2s;
+  }
+
+  .prize-item:hover {
+    border-color: var(--navy);
+    background: rgba(10,31,92,0.02);
+  }
+
+  .prize-rank {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    width: 36px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .prize-info strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy-deep);
+  }
+
+  .prize-info span {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .leaderboard-preview {
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .lb-header {
+    background: var(--navy);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .lb-header-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .lb-live {
+    font-size: 11px;
+    font-weight: 600;
+    color: #86efac;
+    background: rgba(134,239,172,0.15);
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+  }
+
+  .lb-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+
+  .lb-row:last-child { border-bottom: none; }
+
+  .lb-row:hover { background: rgba(10,31,92,0.03); }
+
+  .lb-pos {
+    font-family: 'Clash Display', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text-muted);
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .lb-pos.gold { color: #f59e0b; }
+  .lb-pos.silver { color: #94a3b8; }
+  .lb-pos.bronze { color: #b45309; }
+
+  .lb-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .lb-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-body);
+  }
+
+  .lb-score {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .lb-time {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: var(--navy);
+    padding: 100px 5%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.1);
+    pointer-events: none;
+  }
+
+  .cta-section .section-title {
+    color: var(--white);
+    max-width: 600px;
+    margin: 0 auto 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-section .section-sub {
+    color: rgba(255,255,255,0.55);
+    max-width: 480px;
+    margin: 0 auto 44px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-cta-primary {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    background: var(--white);
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+
+  .btn-cta-primary:hover {
+    background: #f1f5f9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+
+  .btn-cta-ghost {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    background: none;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    padding: 13px 28px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+
+  .btn-cta-ghost:hover {
+    border-color: rgba(255,255,255,0.6);
+    color: var(--white);
+  }
+
+  /* footer styles handled below */
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── LEKKI HEADMASTER PRODUCT SECTION ── */
+  .lekki-section {
+    background: var(--white);
+    padding: 110px 5%;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .lekki-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(10,31,92,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10,31,92,0.03) 1px, transparent 1px);
+    background-size: 72px 72px;
+    pointer-events: none;
+  }
+
+  .lekki-section::after {
+    content: '';
+    position: absolute;
+    top: -160px; right: -160px;
+    width: 520px; height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,158,11,0.07), transparent 65%);
+    pointer-events: none;
+  }
+
+  .lekki-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .lekki-new-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(245,158,11,0.09);
+    border: 1px solid rgba(245,158,11,0.22);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #92400e;
+    margin-bottom: 14px;
+    letter-spacing: 0.02em;
+  }
+
+  .lekki-left .section-tag {
+    background: rgba(245,158,11,0.1);
+    color: #92400e;
+  }
+
+  .lekki-left .section-title {
+    max-width: 440px;
+    margin-bottom: 14px;
+  }
+
+  .lekki-left .section-sub {
+    max-width: 420px;
+    margin-bottom: 32px;
+  }
+
+  .lekki-feats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+
+  .lekki-feat-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.25s;
+    cursor: default;
+  }
+
+  .lekki-feat-row:hover {
+    border-color: var(--navy);
+    background: rgba(10,31,92,0.03);
+    transform: translateX(5px);
+    box-shadow: 0 4px 18px rgba(10,31,92,0.07);
+  }
+
+  .lekki-feat-row:hover .lfr-icon {
+    transform: scale(1.12);
+  }
+
+  .lfr-icon {
+    width: 42px; height: 42px;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    transition: transform 0.25s;
+  }
+
+  .lfr-blue  { background: rgba(59,130,246,0.1);  border: 1px solid rgba(59,130,246,0.18); }
+  .lfr-gold  { background: rgba(245,158,11,0.1);  border: 1px solid rgba(245,158,11,0.18); }
+  .lfr-green { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.18); }
+
+  .lfr-text h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy-deep);
+    margin-bottom: 2px;
+  }
+
+  .lfr-text p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .btn-lekki {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    background: var(--navy);
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(10,31,92,0.2);
+  }
+
+  .btn-lekki:hover {
+    background: var(--navy-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 36px rgba(10,31,92,0.3);
+  }
+
+  .btn-lekki .btn-arrow {
+    transition: transform 0.25s;
+  }
+
+  .btn-lekki:hover .btn-arrow {
+    transform: translateX(5px);
+  }
+
+  /* Image side */
+  .lekki-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .lekki-img-wrap {
+    position: relative;
+    animation: lekkiFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes lekkiFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%       { transform: translateY(-14px) rotate(0.4deg); }
+  }
+
+  .lekki-img-wrap img {
+    width: 320px;
+    border-radius: 22px;
+    box-shadow:
+      0 32px 72px rgba(10,31,92,0.18),
+      0 0 0 1px rgba(10,31,92,0.06);
+    display: block;
+  }
+
+  .lekki-img-glow {
+    position: absolute;
+    inset: -24px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,158,11,0.1), transparent 65%);
+    pointer-events: none;
+    animation: glowBreathe 4s ease-in-out infinite;
+  }
+
+  @keyframes glowBreathe {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.06); }
+  }
+
+  /* Floating chips on image */
+  .lekki-chip {
+    position: absolute;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 14px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    box-shadow: 0 6px 24px rgba(10,31,92,0.1);
+    white-space: nowrap;
+  }
+
+  .lekki-chip .lc-icon { font-size: 16px; }
+
+  .lekki-chip .lc-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy-deep);
+  }
+
+  .lc-1 {
+    top: -18px; right: -52px;
+    animation: chipFloat 5s 0s ease-in-out infinite;
+  }
+
+  .lc-2 {
+    bottom: 20px; right: -60px;
+    animation: chipFloat 5s 1.6s ease-in-out infinite;
+  }
+
+  .lc-3 {
+    bottom: 100px; left: -66px;
+    animation: chipFloat 5s 0.8s ease-in-out infinite;
+  }
+
+  @keyframes chipFloat {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+  }
+
+  @media (max-width: 900px) {
+    .lekki-inner {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .lekki-visual {
+      display: flex;
+      justify-content: center;
+      margin-top: 48px;
+    }
+    .lekki-img-wrap img {
+      width: 260px;
+    }
+    .lc-1 { top: -14px; right: -30px; }
+    .lc-2 { bottom: 10px; right: -36px; }
+    .lc-3 { bottom: 80px; left: -40px; }
+  }
+
+  @media (max-width: 540px) {
+    .lekki-img-wrap img {
+      width: 220px;
+    }
+    .lekki-chip {
+      padding: 7px 11px;
+      border-radius: 8px;
+    }
+    .lekki-chip .lc-text { font-size: 11px; }
+    .lekki-chip .lc-icon { font-size: 14px; }
+    .lc-1 { top: -12px; right: -10px; }
+    .lc-2 { bottom: 8px; right: -10px; }
+    .lc-3 { display: none; }
+  }
+
+  /* ── FOOTER FULL ── */
+  footer {
+    background: var(--navy-deep);
+    padding: 60px 5% 32px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 32px;
+  }
+
+  .footer-brand .footer-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .footer-brand .footer-logo-wrap img {
+    height: 36px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+  }
+
+  .footer-brand .footer-logo-wrap span {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.65;
+    max-width: 260px;
+  }
+
+  .footer-col-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 18px;
+  }
+
+  .footer-col-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-col-links a {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-col-links a:hover { color: rgba(255,255,255,0.9); }
+
+  .footer-col-links .link-icon {
+    font-size: 15px;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .footer-bottom-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+
+  .footer-bottom-links a {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-bottom-links a:hover { color: rgba(255,255,255,0.6); }
+
+  @media (max-width: 900px) {
+    .lekki-inner { grid-template-columns: 1fr; gap: 0; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .sessions-grid { grid-template-columns: 1fr; }
+    .prizes-layout { grid-template-columns: 1fr; }
+    .hero-stats { flex-direction: column; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat-item:last-child { border-bottom: none; }
+    nav { padding: 0 4%; }
+  }
+
+  @media (max-width: 480px) {
+    .steps-grid { grid-template-columns: 1fr; }
+    .subjects-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="1.png" alt="Zenova" onerror="this.style.display='none'">
+    <span class="nav-logo-text">ZENOVA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#subjects">Subjects</a></li>
+    <li><a href="#sessions">Sessions</a></li>
+    <li><a href="#leaderboard">Leaderboard</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="login.html" class="btn-ghost">Log In</a>
+    <a href="signup.html" class="btn-primary">Register Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid-line"></div>
+    <div class="hero-circle-1"></div>
+    <div class="hero-circle-2"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Science Jamb Revision · Premium CBT Competition
+    </div>
+    <h1 class="hero-title">
+      Prove You're Ready<br>for <span class="highlight">JAMB 2027</span>
+    </h1>
+    <p class="hero-sub">
+      The ultimate CBT competition for Zenova's Science Premium class. Test your knowledge, beat the timer, and claim your spot at the top of the leaderboard.
+    </p>
+    <div class="hero-actions">
+      <a href="signup.html" class="btn-hero-primary">
+        Register for Competition
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#how" class="btn-hero-secondary">How It Works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number">5</span>
+        <span class="stat-label">Subjects</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">220</span>
+        <span class="stat-label">Total Questions</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">2hrs</span>
+        <span class="stat-label">Exam Duration</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">3</span>
+        <span class="stat-label">Sessions</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECTS BAND -->
+<div class="subjects-band">
+  <div class="subjects-scroll">
+    <span class="subject-pill"><span class="dot"></span>English Language</span>
+    <span class="subject-pill"><span class="dot"></span>Mathematics</span>
+    <span class="subject-pill"><span class="dot"></span>Physics</span>
+    <span class="subject-pill"><span class="dot"></span>Chemistry</span>
+    <span class="subject-pill"><span class="dot"></span>Biology</span>
+    <span class="subject-pill"><span class="dot"></span>The Lekki Headmaster</span>
+    <span class="subject-pill"><span class="dot"></span>Zenova CBT Competition</span>
+    <span class="subject-pill"><span class="dot"></span>English Language</span>
+    <span class="subject-pill"><span class="dot"></span>Mathematics</span>
+    <span class="subject-pill"><span class="dot"></span>Physics</span>
+    <span class="subject-pill"><span class="dot"></span>Chemistry</span>
+    <span class="subject-pill"><span class="dot"></span>Biology</span>
+    <span class="subject-pill"><span class="dot"></span>The Lekki Headmaster</span>
+    <span class="subject-pill"><span class="dot"></span>Zenova CBT Competition</span>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-header reveal">
+    <span class="section-tag">How It Works</span>
+    <h2 class="section-title">Simple. Secure. Competitive.</h2>
+    <p class="section-sub">From registration to results in four clean steps — built to feel exactly like the real JAMB CBT.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card reveal">
+      <div class="step-number">01</div>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="step-title">Create Your Account</div>
+      <p class="step-desc">Sign up with your name, email and school. Takes less than 2 minutes. One account, one attempt.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-number">02</div>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="step-title">Enter Your Exam Code</div>
+      <p class="step-desc">Use the unique exam code sent to you after enrolling in the premium class. Each code works once only.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-number">03</div>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <div class="step-title">Pick Your Subjects</div>
+      <p class="step-desc">English is compulsory. Choose any 3 more from Maths, Physics, Chemistry and Biology to complete your 4.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-number">04</div>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="step-title">Compete & Claim Results</div>
+      <p class="step-desc">Write the 2-hour exam, submit, download your score sheet, review corrections and see your leaderboard rank instantly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECTS -->
+<section class="subjects-section" id="subjects">
+  <div class="subjects-header reveal">
+    <div>
+      <span class="section-tag">Subjects</span>
+      <h2 class="section-title">4 Subjects. English is Fixed.</h2>
+      <p class="section-sub">Choose your 3 science subjects. English is compulsory for all candidates — just like the real JAMB.</p>
+    </div>
+  </div>
+  <div class="subjects-grid">
+    <div class="subject-card compulsory reveal">
+      <span class="compulsory-tag">Compulsory</span>
+      <span class="subject-emoji">📖</span>
+      <div class="subject-name">English Language</div>
+      <div class="subject-qs">60 questions · Incl. Lekki Headmaster</div>
+    </div>
+    <div class="subject-card reveal">
+      <span class="subject-emoji">📐</span>
+      <div class="subject-name">Mathematics</div>
+      <div class="subject-qs">40 questions</div>
+    </div>
+    <div class="subject-card reveal">
+      <span class="subject-emoji">⚡</span>
+      <div class="subject-name">Physics</div>
+      <div class="subject-qs">40 questions</div>
+    </div>
+    <div class="subject-card reveal">
+      <span class="subject-emoji">🧪</span>
+      <div class="subject-name">Chemistry</div>
+      <div class="subject-qs">40 questions</div>
+    </div>
+    <div class="subject-card reveal">
+      <span class="subject-emoji">🔬</span>
+      <div class="subject-name">Biology</div>
+      <div class="subject-qs">40 questions</div>
+    </div>
+  </div>
+</section>
+
+<!-- SESSIONS -->
+<section class="sessions-section" id="sessions">
+  <div class="sessions-header reveal">
+    <span class="section-tag">Exam Sessions</span>
+    <h2 class="section-title">Three Sessions. Pick Yours.</h2>
+    <p class="section-sub">Your exam code is tied to a session. All sessions are 2 hours. Same questions, same rules, fair competition.</p>
+  </div>
+  <div class="sessions-grid">
+    <div class="session-card reveal">
+      <span class="session-time-icon">🌅</span>
+      <span class="session-label">Session 1 · Morning</span>
+      <span class="session-time">8:00 AM</span>
+      <p class="session-desc">Start fresh. The morning slot for early risers who want to get it done.</p>
+    </div>
+    <div class="session-card reveal">
+      <span class="session-time-icon">☀️</span>
+      <span class="session-label">Session 2 · Afternoon</span>
+      <span class="session-time">1:00 PM</span>
+      <p class="session-desc">Mid-day energy. The most popular slot for most candidates.</p>
+    </div>
+    <div class="session-card reveal">
+      <span class="session-time-icon">🌙</span>
+      <span class="session-label">Session 3 · Evening</span>
+      <span class="session-time">5:00 PM</span>
+      <p class="session-desc">Last chance to compete. Same intensity, different energy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRIZES & LEADERBOARD -->
+<section class="prizes-section" id="leaderboard">
+  <div class="prizes-layout">
+    <div class="prizes-left reveal">
+      <span class="section-tag">Leaderboard</span>
+      <h2 class="section-title">Highest Score<br>Wins It All.</h2>
+      <p class="section-sub">Rankings are determined by total score. Tiebreaker goes to the fastest submission time. One shot. Make it count.</p>
+      <ul class="prize-list">
+        <li class="prize-item">
+          <span class="prize-rank">🥇</span>
+          <div class="prize-info">
+            <strong>1st Place</strong>
+            <span>Highest score, fastest completion time</span>
+          </div>
+        </li>
+        <li class="prize-item">
+          <span class="prize-rank">🥈</span>
+          <div class="prize-info">
+            <strong>2nd Place</strong>
+            <span>Second highest score overall</span>
+          </div>
+        </li>
+        <li class="prize-item">
+          <span class="prize-rank">🥉</span>
+          <div class="prize-info">
+            <strong>3rd Place</strong>
+            <span>Third highest score overall</span>
+          </div>
+        </li>
+        <li class="prize-item">
+          <span class="prize-rank" style="font-size:16px">📄</span>
+          <div class="prize-info">
+            <strong>All Participants</strong>
+            <span>Downloadable score sheet + full correction review</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="prizes-right reveal">
+      <div class="leaderboard-preview">
+        <div class="lb-header">
+          <div class="lb-header-title">
+            <svg width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Live Leaderboard
+          </div>
+          <span class="lb-live">● LIVE</span>
+        </div>
+        <div class="lb-row">
+          <div class="lb-pos gold">1</div>
+          <div class="lb-avatar" style="background:#1a3278;">AO</div>
+          <div class="lb-name">Adebayo O.</div>
+          <div>
+            <div class="lb-score">318</div>
+            <div class="lb-time">1:42:07</div>
+          </div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-pos silver">2</div>
+          <div class="lb-avatar" style="background:#0f6e56;">CN</div>
+          <div class="lb-name">Chisom N.</div>
+          <div>
+            <div class="lb-score">312</div>
+            <div class="lb-time">1:48:33</div>
+          </div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-pos bronze">3</div>
+          <div class="lb-avatar" style="background:#854f0b;">FA</div>
+          <div class="lb-name">Fatima A.</div>
+          <div>
+            <div class="lb-score">305</div>
+            <div class="lb-time">1:51:12</div>
+          </div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-pos">4</div>
+          <div class="lb-avatar" style="background:#533ab7;">EO</div>
+          <div class="lb-name">Emeka O.</div>
+          <div>
+            <div class="lb-score">298</div>
+            <div class="lb-time">1:55:04</div>
+          </div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-pos">5</div>
+          <div class="lb-avatar" style="background:#993556;">KA</div>
+          <div class="lb-name">Kemi A.</div>
+          <div>
+            <div class="lb-score">291</div>
+            <div class="lb-time">1:57:48</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEKKI HEADMASTER PRODUCT -->
+<section class="lekki-section" id="lekki">
+  <div class="lekki-inner">
+
+    <!-- LEFT: text + features -->
+    <div class="lekki-left reveal">
+      <div class="lekki-new-badge">✨ New on Zenova</div>
+      <span class="section-tag">Try Our New Website</span>
+      <h2 class="section-title">Master the Lekki Headmaster</h2>
+      <p class="section-sub">The smartest way to study the novel. Everything you need to ace the literature section — all in one place.</p>
+
+      <div class="lekki-feats-list">
+        <div class="lekki-feat-row">
+          <div class="lfr-icon lfr-blue">📚</div>
+          <div class="lfr-text">
+            <h4>Chapter Summaries</h4>
+            <p>Clear, detailed summaries of every chapter so nothing catches you off guard.</p>
+          </div>
+        </div>
+        <div class="lekki-feat-row">
+          <div class="lfr-icon lfr-gold">🎧</div>
+          <div class="lfr-text">
+            <h4>Audio Summaries</h4>
+            <p>Listen to chapter summaries on the go. Study even when your eyes are tired.</p>
+          </div>
+        </div>
+        <div class="lekki-feat-row">
+          <div class="lfr-icon lfr-green">✅</div>
+          <div class="lfr-text">
+            <h4>Practice Quizzes</h4>
+            <p>JAMB-style questions per chapter. Test yourself and track your progress.</p>
+          </div>
+        </div>
+      </div>
+
+      <a href="https://centemalon777-a11y.github.io/maws/dashboard.html" target="_blank" class="btn-lekki">
+        Try It Now
+        <svg class="btn-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- RIGHT: image with floating chips -->
+    <div class="lekki-visual reveal">
+      <div class="lekki-img-wrap">
+        <div class="lekki-img-glow"></div>
+        <img src="6.png" alt="Master the Lekki Headmaster — Zenova">
+        <div class="lekki-chip lc-1">
+          <span class="lc-icon">📚</span>
+          <span class="lc-text">Chapter Summaries</span>
+        </div>
+        <div class="lekki-chip lc-2">
+          <span class="lc-icon">🎧</span>
+          <span class="lc-text">Audio Ready</span>
+        </div>
+        <div class="lekki-chip lc-3">
+          <span class="lc-icon">✅</span>
+          <span class="lc-text">Practice Quizzes</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <span class="section-tag" style="color:rgba(255,255,255,0.6); background:rgba(255,255,255,0.1);">Ready?</span>
+  <h2 class="section-title">Your JAMB Prep Ends<br>With a Score That Matters.</h2>
+  <p class="section-sub">Register now. Enter your exam code. Write the best exam of your life. One chance — don't waste it.</p>
+  <div class="cta-actions">
+    <a href="signup.html" class="btn-cta-primary">Register for Free</a>
+    <a href="login.html" class="btn-cta-ghost">I Already Have an Account</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo-wrap">
+        <img src="1.png" alt="Zenova" onerror="this.style.display='none'">
+        <span>ZENOVA</span>
+      </div>
+      <p class="footer-tagline">The smartest way to prepare for JAMB. Built for Nigerian students who want to win.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Products & Links</div>
+      <ul class="footer-col-links">
+        <li><a href="#" target="_blank"><span class="link-icon">🌐</span>Our Website</a></li>
+        <li><a href="https://centemalon777-a11y.github.io/maws/dashboard.html" target="_blank"><span class="link-icon">📖</span>Master the Lekki Headmaster</a></li>
+        <li><a href="https://linktr.ee/zenovaofficial" target="_blank"><span class="link-icon">🔗</span>Linktree</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Follow Us</div>
+      <ul class="footer-col-links">
+        <li><a href="https://tiktok.com/@zenovaofficial" target="_blank"><span class="link-icon">🎵</span>TikTok</a></li>
+        <li><a href="https://youtube.com/@zenovaofficial" target="_blank"><span class="link-icon">▶️</span>YouTube</a></li>
+        <li><a href="https://facebook.com/zenovaofficial" target="_blank"><span class="link-icon">📘</span>Facebook</a></li>
+        <li><a href="https://instagram.com/zenovaofficial" target="_blank"><span class="link-icon">📸</span>Instagram</a></li>
+        <li><a href="mailto:zenovaofficial188@gmail.com"><span class="link-icon">✉️</span>zenovaofficial188@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Zenova Education. All rights reserved.</p>
+    <ul class="footer-bottom-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

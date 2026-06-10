@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Zenova CBT Competition</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1f5c;
+  --navy-deep:#060f36;
+  --navy-mid:#1a3278;
+  --blue:#1e40af;
+  --teal:#0ea5e9;
+  --teal-2:#38bdf8;
+  --gold:#f59e0b;
+  --gold-2:#fcd34d;
+  --success:#10b981;
+  --error:#ef4444;
+  --white:#fff;
+  --off:#f8faff;
+  --border:#e2e8f0;
+  --muted:#64748b;
+  --body:#334155;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Sora',sans-serif;
+  background:var(--off);
+  color:var(--body);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Clash Display',sans-serif;}
+a{text-decoration:none;}
+
+/* ═══ TOPBAR ═══ */
+.topbar{
+  position:sticky;top:0;z-index:200;
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  height:62px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;
+  box-shadow:0 1px 12px rgba(10,31,92,.06);
+}
+.topbar-logo{display:flex;align-items:center;gap:9px;}
+.topbar-logo img{height:28px;}
+.topbar-logo span{
+  font-family:'Clash Display',sans-serif;
+  font-size:17px;font-weight:700;color:var(--navy-deep);
+}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.t-name{font-size:13px;font-weight:600;color:var(--navy-deep);}
+.t-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Clash Display',sans-serif;
+  font-size:13px;font-weight:700;color:#fff;
+  flex-shrink:0;
+}
+.btn-logout{
+  font-family:'Sora',sans-serif;font-size:12px;font-weight:600;
+  color:var(--muted);background:transparent;
+  border:1.5px solid var(--border);
+  border-radius:7px;padding:6px 14px;cursor:pointer;
+  transition:all .2s;
+}
+.btn-logout:hover{border-color:var(--error);color:var(--error);}
+
+/* ═══ LAYOUT ═══ */
+.page{
+  max-width:1000px;
+  margin:0 auto;
+  padding:32px 24px 80px;
+  display:flex;flex-direction:column;gap:20px;
+}
+
+/* ═══ HERO BAND ═══ */
+.hero-band{
+  background:var(--navy-deep);
+  border-radius:20px;
+  padding:32px 36px;
+  position:relative;overflow:hidden;
+  animation:up .5s ease both;
+}
+.hero-band::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(14,165,233,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(14,165,233,.07) 1px,transparent 1px);
+  background-size:44px 44px;pointer-events:none;
+}
+.hero-orb{
+  position:absolute;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,233,.14),transparent 65%);
+  top:-100px;right:-80px;pointer-events:none;
+}
+.hero-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.hero-left{}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.25);
+  border-radius:100px;padding:5px 14px;margin-bottom:12px;
+}
+.hero-eyebrow .dot{
+  width:6px;height:6px;border-radius:50%;background:var(--teal-2);
+  animation:blink 2s infinite;
+}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.3);}}
+.hero-eyebrow span{font-size:11px;font-weight:600;color:var(--teal-2);letter-spacing:.07em;text-transform:uppercase;}
+.hero-band h1{
+  font-size:clamp(20px,3vw,28px);font-weight:700;color:#fff;
+  letter-spacing:-.02em;margin-bottom:6px;
+}
+.hero-band h1 em{font-style:normal;color:var(--teal-2);}
+.hero-band p{font-size:13px;color:rgba(255,255,255,.48);line-height:1.6;max-width:420px;}
+.hero-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+.hero-dates{display:flex;gap:10px;}
+.h-date{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(14,165,233,.2);
+  border-radius:12px;padding:12px 18px;text-align:center;
+  min-width:100px;
+}
+.hd-season{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-2);margin-bottom:4px;}
+.hd-date{font-family:'Clash Display',sans-serif;font-size:16px;font-weight:700;color:#fff;}
+
+/* ═══ 3-COL CARDS ═══ */
+.cards-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  animation:up .5s .1s ease both;
+}
+.card{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  padding:22px;
+  transition:all .25s;
+  position:relative;overflow:hidden;
+}
+.card:hover{border-color:rgba(10,31,92,.18);box-shadow:0 6px 28px rgba(10,31,92,.08);transform:translateY(-2px);}
+.card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--navy),var(--teal));
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+}
+.card:hover::after{transform:scaleX(1);}
+.card-icon{font-size:26px;margin-bottom:12px;display:block;}
+.card-label{
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:5px;
+}
+.card-val{
+  font-family:'Clash Display',sans-serif;
+  font-size:19px;font-weight:700;color:var(--navy-deep);line-height:1.1;
+}
+.card-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+
+/* session card accent */
+.card.c-session{border-left:3px solid var(--teal);}
+.card.c-session .card-val{color:var(--navy);}
+
+/* ═══ MAIN 2-COL GRID ═══ */
+.main-grid{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:20px;
+  animation:up .5s .2s ease both;
+}
+
+/* ═══ START CARD ═══ */
+.start-card{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  padding:28px;
+  display:flex;flex-direction:column;gap:0;
+}
+.start-card h3{font-size:17px;font-weight:700;color:var(--navy-deep);margin-bottom:8px;}
+.start-card>p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:22px;}
+
+.rules{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;}
+.rule{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:var(--body);line-height:1.55;
+  padding:10px 14px;
+  background:var(--off);
+  border:1px solid var(--border);
+  border-radius:9px;
+  transition:border-color .2s;
+}
+.rule:hover{border-color:rgba(10,31,92,.18);}
+.rule svg{width:14px;height:14px;stroke:var(--success);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:2px;}
+
+.confirm-box{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(245,158,11,.05);
+  border:1px solid rgba(245,158,11,.2);
+  border-radius:10px;padding:14px;
+  margin-bottom:18px;
+}
+.confirm-box input{width:17px;height:17px;accent-color:var(--navy);cursor:pointer;flex-shrink:0;margin-top:2px;}
+.confirm-box label{font-size:13px;color:var(--body);line-height:1.6;cursor:pointer;}
+.confirm-box label strong{color:var(--navy-deep);}
+
+.btn-start{
+  width:100%;height:52px;
+  background:var(--navy);color:#fff;
+  font-family:'Sora',sans-serif;font-size:15px;font-weight:700;
+  border:none;border-radius:11px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.btn-start::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:opacity .25s;}
+.btn-start:hover:not(:disabled){background:var(--navy-mid);transform:translateY(-1px);box-shadow:0 8px 32px rgba(10,31,92,.28);}
+.btn-start:hover::before{opacity:1;}
+.btn-start:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-start svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ═══ RIGHT COLUMN ═══ */
+.right-col{display:flex;flex-direction:column;gap:14px;}
+
+/* countdown */
+.cd-card{
+  background:var(--navy-deep);
+  border-radius:16px;padding:22px;
+}
+.cd-card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.cd-card-head h4{font-size:14px;font-weight:700;color:#fff;}
+.cd-live{
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:#4ade80;background:rgba(74,222,128,.12);
+  border:1px solid rgba(74,222,128,.2);border-radius:100px;padding:3px 10px;
+  display:flex;align-items:center;gap:5px;
+}
+.cd-live::before{content:'';width:5px;height:5px;border-radius:50%;background:#4ade80;animation:blink 2s infinite;}
+.cd-blocks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.cd-block{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;padding:14px 8px;text-align:center;
+}
+.cd-num{
+  font-family:'Clash Display',sans-serif;
+  font-size:26px;font-weight:700;color:#fff;line-height:1;margin-bottom:4px;
+}
+.cd-num.flip{animation:flip .25s ease;}
+@keyframes flip{0%{transform:translateY(-5px);opacity:.4;}100%{transform:translateY(0);opacity:1;}}
+.cd-unit{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);}
+
+/* subjects */
+.subj-card{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:16px;padding:22px;
+  flex:1;
+}
+.subj-card h4{font-size:14px;font-weight:700;color:var(--navy-deep);margin-bottom:14px;}
+.subj-list{display:flex;flex-direction:column;gap:8px;}
+.subj-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  transition:all .2s;
+}
+.subj-item:hover{border-color:rgba(10,31,92,.2);background:rgba(10,31,92,.02);}
+.subj-item.eng{border-color:rgba(245,158,11,.25);background:rgba(245,158,11,.03);}
+.s-emoji{font-size:18px;flex-shrink:0;}
+.s-info{flex:1;}
+.s-name{font-size:13px;font-weight:600;color:var(--navy-deep);}
+.s-q{font-size:11px;color:var(--muted);}
+.s-badge{
+  font-size:9px;font-weight:700;letter-spacing:.04em;
+  padding:3px 9px;border-radius:100px;white-space:nowrap;
+}
+.b-gold{background:rgba(245,158,11,.1);color:#92400e;}
+.b-blue{background:rgba(59,130,246,.1);color:var(--blue);}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══ TOAST ═══ */
+.toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--navy-deep);color:#fff;
+  padding:12px 22px;border-radius:10px;
+  font-size:14px;font-weight:500;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 8px 32px rgba(10,31,92,.3);
+  opacity:0;transition:all .35s;pointer-events:none;
+  z-index:9999;white-space:nowrap;
+  border:1px solid rgba(255,255,255,.08);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{background:#065f46;border-color:rgba(16,185,129,.3);}
+.toast.error{background:#7f1d1d;border-color:rgba(239,68,68,.3);}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .main-grid{grid-template-columns:1fr;}
+  .right-col{flex-direction:row;flex-wrap:wrap;}
+  .cd-card{flex:1;min-width:260px;}
+  .subj-card{flex:1;min-width:260px;}
+}
+@media(max-width:700px){
+  .topbar{padding:0 18px;}
+  .t-name{display:none;}
+  .page{padding:20px 16px 60px;gap:14px;}
+  .hero-band{padding:24px 22px;}
+  .hero-right{display:none;}
+  .cards-row{grid-template-columns:1fr 1fr;}
+  .right-col{flex-direction:column;}
+  .cd-blocks{grid-template-columns:repeat(4,1fr);}
+}
+@media(max-width:420px){
+  .cards-row{grid-template-columns:1fr;}
+  .hero-band h1{font-size:20px;}
+  .cd-num{font-size:22px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="1.png" alt="Zenova" onerror="this.style.display='none'">
+    <span>ZENOVA</span>
+  </div>
+  <div class="topbar-right">
+    <span class="t-name" id="topName">Adebayo Okafor</span>
+    <div class="t-avatar" id="topAvatar">AO</div>
+    <button class="btn-logout" onclick="handleLogout()">Log out</button>
+  </div>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero-band">
+    <div class="hero-orb"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <span class="dot"></span>
+          <span>CBT Championship · Season 1</span>
+        </div>
+        <h1>Welcome back, <em id="firstName">Adebayo</em> 👋</h1>
+        <p>Your dashboard is ready. Review your session and start your exam when you're prepared.</p>
+      </div>
+      <div class="hero-right">
+        <div class="hero-dates">
+          <div class="h-date">
+            <div class="hd-season">Season 1</div>
+            <div class="hd-date">Dec 12, 2026</div>
+          </div>
+          <div class="h-date">
+            <div class="hd-season">Season 2</div>
+            <div class="hd-date">Apr 10, 2027</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 INFO CARDS -->
+  <div class="cards-row">
+    <div class="card c-session">
+      <span class="card-icon" id="sessIcon">🌅</span>
+      <div class="card-label">Your Session</div>
+      <div class="card-val" id="sessVal">Morning</div>
+      <div class="card-sub" id="sessTime">9:00 AM – 11:00 AM</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">⏱️</span>
+      <div class="card-label">Exam Duration</div>
+      <div class="card-val">2 Hours</div>
+      <div class="card-sub">120 minutes total</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">📋</span>
+      <div class="card-label">Total Questions</div>
+      <div class="card-val" id="totalQ">180</div>
+      <div class="card-sub">Across 4 subjects</div>
+    </div>
+  </div>
+
+  <!-- MAIN 2-COL -->
+  <div class="main-grid">
+
+    <!-- START EXAM CARD -->
+    <div class="start-card">
+      <h3>🚀 Ready to Start?</h3>
+      <p>Make sure you're in a quiet place with stable internet. Once the exam begins, the 2-hour timer cannot be paused.</p>
+
+      <div class="rules">
+        <div class="rule">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          You have exactly <strong style="margin:0 3px;">2 hours</strong> once you begin.
+        </div>
+        <div class="rule">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          You can only attempt this exam <strong style="margin:0 3px;">once</strong>.
+        </div>
+        <div class="rule">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Answer all questions — unanswered questions score <strong style="margin:0 3px;">zero</strong>.
+        </div>
+        <div class="rule">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Do not refresh or close the browser during the exam.
+        </div>
+        <div class="rule">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Results and corrections are available immediately after.
+        </div>
+      </div>
+
+      <div class="confirm-box">
+        <input type="checkbox" id="confirmCheck" onchange="toggleBtn()">
+        <label for="confirmCheck">
+          I understand the rules. I am in a <strong>quiet environment</strong> with stable internet and I am ready to begin my exam.
+        </label>
+      </div>
+
+      <button class="btn-start" id="startBtn" onclick="startExam()" disabled>
+        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span id="startText">Start Exam Now</span>
+      </button>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="right-col">
+
+      <!-- Countdown -->
+      <div class="cd-card">
+        <div class="cd-card-head">
+          <h4>⏳ Exam Countdown</h4>
+          <span class="cd-live">LIVE</span>
+        </div>
+        <div class="cd-blocks">
+          <div class="cd-block"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">Days</div></div>
+          <div class="cd-block"><div class="cd-num" id="cd-h">--</div><div class="cd-unit">Hours</div></div>
+          <div class="cd-block"><div class="cd-num" id="cd-m">--</div><div class="cd-unit">Mins</div></div>
+          <div class="cd-block"><div class="cd-num" id="cd-s">--</div><div class="cd-unit">Secs</div></div>
+        </div>
+      </div>
+
+      <!-- Subjects -->
+      <div class="subj-card">
+        <h4>📚 Your Subjects</h4>
+        <div class="subj-list" id="subjList">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><span id="toastMsg"></span></div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyBWYdeKlijVJUHUjzcCoPgZDumsgJFMDaw",
+  authDomain:"zenova-4342f.firebaseapp.com",
+  databaseURL:"https://zenova-4342f-default-rtdb.firebaseio.com",
+  projectId:"zenova-4342f",
+  storageBucket:"zenova-4342f.firebasestorage.app",
+  messagingSenderId:"132378238032",
+  appId:"1:132378238032:web:6fe0055d9d5b50b3050555"
+};
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+const SESSION_TIMES  = {Morning:'9:00 AM – 11:00 AM',Afternoon:'1:00 PM – 3:00 PM',Evening:'5:00 PM – 7:00 PM'};
+const SESSION_ICONS  = {Morning:'🌅',Afternoon:'☀️',Evening:'🌆'};
+const SUBJ_EMOJIS    = {English:'📖',Mathematics:'📐',Physics:'⚡',Chemistry:'🧪',Biology:'🔬'};
+const SUBJ_Q         = {English:60,Mathematics:40,Physics:40,Chemistry:40,Biology:40};
+
+// ── PREVIEW MODE (no Firebase needed) ──
+// Set PREVIEW = true to see the dashboard without logging in
+const PREVIEW = false;
+
+const DUMMY = {
+  firstName:'Adebayo', lastName:'Okafor', fullName:'Adebayo Okafor',
+  session:'Morning', subjects:['English','Physics','Chemistry','Biology'],
+  examCodeVerified:true, examStarted:false, examCompleted:false
+};
+
+function loadDashboard(data) {
+  // Name
+  const first = data.firstName || 'Student';
+  document.getElementById('firstName').textContent = first;
+  document.getElementById('topName').textContent   = data.fullName || first;
+  document.getElementById('topAvatar').textContent =
+    (data.firstName?.[0]||'') + (data.lastName?.[0]||'');
+
+  // Session
+  const s = data.session || 'Morning';
+  document.getElementById('sessIcon').textContent = SESSION_ICONS[s] || '📅';
+  document.getElementById('sessVal').textContent  = s + ' Session';
+  document.getElementById('sessTime').textContent = SESSION_TIMES[s] || '';
+
+  // Subjects
+  const subs = data.subjects || ['English'];
+  let total = 0;
+  const listEl = document.getElementById('subjList');
+  listEl.innerHTML = '';
+  subs.forEach(sub => {
+    const q   = SUBJ_Q[sub] || 40;
+    total    += q;
+    const eng = sub === 'English';
+    listEl.innerHTML += `
+      <div class="subj-item ${eng?'eng':''}">
+        <span class="s-emoji">${SUBJ_EMOJIS[sub]||'📚'}</span>
+        <div class="s-info">
+          <div class="s-name">${sub}</div>
+          <div class="s-q">${q} questions</div>
+        </div>
+        <span class="s-badge ${eng?'b-gold':'b-blue'}">${eng?'Compulsory':'Selected'}</span>
+      </div>`;
+  });
+  document.getElementById('totalQ').textContent = total;
+
+  // Completed state
+  if (data.examCompleted) {
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('startText').textContent = '✓ Exam Completed';
+    document.getElementById('confirmCheck').disabled = true;
+  }
+
+  window._userData = data;
+}
+
+if (PREVIEW) {
+  loadDashboard(DUMMY);
+} else {
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (!snap.exists()) { window.location.href = 'login.html'; return; }
+      const data = snap.data();
+      if (!data.examCodeVerified) { window.location.href = 'verify.html'; return; }
+      loadDashboard(data);
+    } catch(e) {
+      showToast('Error loading your data. Please refresh.', 'error');
+    }
+  });
+}
+
+// ── Countdown ──
+const EXAM_DATE = new Date('2026-12-12T09:00:00');
+const pad = n => String(n).padStart(2,'0');
+function tick() {
+  const diff = EXAM_DATE - new Date();
+  if (diff <= 0) { ['d','h','m','s'].forEach(k => document.getElementById('cd-'+k).textContent='00'); return; }
+  const vals = {
+    d: pad(Math.floor(diff/86400000)),
+    h: pad(Math.floor((diff%86400000)/3600000)),
+    m: pad(Math.floor((diff%3600000)/60000)),
+    s: pad(Math.floor((diff%60000)/1000))
+  };
+  Object.entries(vals).forEach(([k,v]) => {
+    const el = document.getElementById('cd-'+k);
+    if (el.textContent !== v) {
+      el.textContent = v;
+      el.classList.remove('flip');
+      void el.offsetWidth;
+      el.classList.add('flip');
+    }
+  });
+}
+tick(); setInterval(tick, 1000);
+
+// ── Toggle start button ──
+window.toggleBtn = function() {
+  const ok = document.getElementById('confirmCheck').checked;
+  document.getElementById('startBtn').disabled = !ok;
+};
+
+// ── Start exam ──
+window.startExam = async function() {
+  if (PREVIEW) { showToast('Preview mode — would go to exam.html', 'success'); return; }
+  const btn = document.getElementById('startBtn');
+  btn.disabled = true;
+  document.getElementById('startText').textContent = 'Starting…';
+  try {
+    const user = auth.currentUser;
+    await updateDoc(doc(db, 'users', user.uid), {
+      examStarted: true, examStartedAt: serverTimestamp()
+    });
+    showToast('Launching your exam…', 'success');
+    setTimeout(() => window.location.href = 'exam.html', 1000);
+  } catch(e) {
+    btn.disabled = false;
+    document.getElementById('startText').textContent = 'Start Exam Now';
+    showToast('Something went wrong. Try again.', 'error');
+  }
+};
+
+// ── Logout ──
+window.handleLogout = async function() {
+  if (PREVIEW) { showToast('Preview mode — no logout needed', ''); return; }
+  await signOut(auth);
+  window.location.href = 'login.html';
+};
+
+// ── Toast ──
+let tt;
+window.showToast = function(msg, type='') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(tt);
+  tt = setTimeout(() => t.classList.remove('show'), 4000);
+};
+</script>
+
+</body>
+</html>
